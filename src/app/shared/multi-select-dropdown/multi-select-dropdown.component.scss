@@ -1,0 +1,33 @@
+.custom-dropdown {
+    position: relative;
+    width: 10vh;
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    width: 330px;
+
+  }
+
+  .dropdown-placeholder {
+    font-size: 14px;
+    color: #495057;
+  }
+
+  .dropdown-menu {
+    width: 330px;
+    overflow-y: auto;
+    max-height: 200px;
+    padding: 30px;
+  }
+
+  .form-check {
+    padding: 5px 0;
+  }
+
+  hr {
+    margin: 10px 0;
+  }
+}

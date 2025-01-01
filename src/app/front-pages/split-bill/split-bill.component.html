@@ -1,0 +1,92 @@
+<app-fp-navbar />
+<div class="container my-5">
+    <div class="page-banner-area text-center">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="trezo-card mb-25 border-radius d-block bg-white border-0 shadow-none">
+                    <div class="bg-light p-4" [class.component-dark-theme]="themeService.isDark()">
+                        <div class="trezo-card-content">
+                            <div class="accordion">
+                                <div class="accordion-item">
+                                    @for (item of groupDetail; track $index) {
+                                    @for (exp of item.expenses?? [] ; track $index) {
+                                    <button class="accordion-button collapsed" type="button"
+                                        (click)="toggleSection(item.id,$index)"
+                                        [ngClass]="{ 'open': isSectionOpen(item.id,$index) }">
+                                        Split requests for : {{item.name}}
+                                    </button>
+                                    <div class="accordion-collapse"
+                                        [ngClass]="{ 'open': isSectionOpen(item.id,$index) }">
+                                        <div class="accordion-body">
+                                            <label class="main-label d-block fw-medium text-black">
+                                                Amount to be paid for : <b> {{exp.reason}} </b>
+                                            </label>
+                                            @for (participant of exp.participants ?? []; track $index; ) {
+                                            <ol>
+                                                <li class="contributor-name">
+                                                    {{participant}} : ₹{{exp.contribution?.[$index] ??
+                                                    0}}<span><button type="button" (click)="openCode()"
+                                                            class="btn btn-primary">Pay
+                                                            ₹{{exp.contribution?.[$index]}}</button></span>
+                                                </li>
+                                            </ol>
+                                            }
+                                        </div>
+                                    </div>
+                                    }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="add-new-popup" [class.active]="isOpenPayment">
+    <div class="popup-dialog">
+        <div>
+            <div class="trezo-card w-100 border-radius d-block bg-white border-0 shadow-none">
+                <div class="trezo-card-header d-flex align-items-center justify-content-between">
+                    <div class="trezo-card-title">
+                        <h5 class="mb-0">PAYMENT</h5>
+                    </div>
+                    <div class="trezo-card-subtitle">
+                        <button (click)="openCode()" class="p-0 border-0 lh-1 bg-transparent transition">
+                            <i class="ri-close-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="trezo-card-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="main-label d-block fw-medium text-black">
+                                    ENTER 4-DIGIT CODE
+                                </label>
+                                <div class="code-input">
+                                    @for (item of codeArray; track $index) {
+                                    <input type="number" maxlength="1" [type]="isPasswordVisible ? 'text' : 'password'"
+                                        placeholder="*" class="code-box" [id]="'code-' + $index"
+                                        (input)="onInput($event, $index)" (keydown)="onKeyDown($event, $index)"
+                                        [(ngModel)]="codeArray[$index]" />}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-box">
+                        <button type="button" class=" d-inline-block fw-medium border-0 border-radius  rounded-circle ">
+                            <span class="position-relative d-inline-block">
+                                <i class="material-symbols-outlined">
+                                    check </i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
