@@ -1,0 +1,78 @@
+<div class="sign-up-area" [class.dark-theme]="themeService.isDark()">
+    <div class="trezo-form mx-auto" [class.component-dark-theme]="themeService.isDark()"
+        [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 order-2 order-lg-1">
+                <div class="form-image">
+                    <img src="images/login.jpg" alt="sign-up-image">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 order-1 order-lg-2">
+                <div class="form-content">
+                    <div class="title">
+                        <h1 class="fw-semibold">
+                            Login to Bill-Splitting
+                        </h1>
+                    </div>
+                    <form [formGroup]="formData" (ngSubmit)="onLogin()">
+                        <div class="form-group">
+                            <label class="main-label d-block fw-medium text-black">
+                                Email Address
+                            </label>
+                            <input type="text" class="form-control" formControlName="Email"
+                                placeholder="example&#64;gmail.com">
+                        </div>
+                        <div class="form-group position-relative">
+                            <label class="main-label d-block fw-medium text-black">
+                                Password
+                            </label>
+                            <input [type]="isPasswordVisible ? 'text' : 'password'" formControlName="Password"
+                                class="form-control" placeholder="password">
+                            <button type="button" (click)="togglePasswordVisibility()"
+                                class="icon-button p-0 border-0 bg-transparent transition">
+                                <i [ngClass]="isPasswordVisible ? 'ri-eye-line' : 'ri-eye-off-line'"></i>
+                            </button>
+                        </div>
+                        <button type="submit" class="btn-box d-block w-100 border-0 transition fw-medium border-radius">
+                            <span class="d-flex align-items-center justify-content-center">
+                                <i class="material-symbols-outlined">
+                                    person_4
+                                </i>
+                                Login
+                            </span>
+                        </button>
+                        <div class="toast-container transition position-fixed bottom-0 end-0 p-3"
+                            [class.show]="classApplied2">
+                            <div class="toast" role="alert">
+                                <div class="toast-header">
+                                    <strong class="me-auto">LoggedIn</strong>
+                                    <small>1 mins ago</small>
+                                    <button type="button" class="btn-close shadow-none" aria-label="Close"
+                                        (click)="toggleClass2()"></button>
+                                </div>
+                                <div class="toast-body">
+                                    Login Successfully !!
+                                </div>
+                            </div>
+                        </div>
+                            <div class="toast-container transition position-fixed bottom-0 end-0 p-3" [class.show]="classApplied3">
+                                <div class="toast" role="alert">
+                                    <div class="toast-header">
+                                        <strong class="me-auto">Error</strong>
+                                        <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="toggleClass3()"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Unauthorized! Please check your email or password
+                                    </div>
+                                </div>
+                            </div>
+                        <p class="info">
+                            Don't have an account. <a routerLink="/Register"
+                                class="fw-semibold text-primary">Register Here!</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

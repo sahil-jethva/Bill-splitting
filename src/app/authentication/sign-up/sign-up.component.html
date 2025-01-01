@@ -1,0 +1,85 @@
+<div class="sign-up-area" [class.dark-theme]="themeService.isDark()">
+    <div class="trezo-form mx-auto" [class.component-dark-theme]="themeService.isDark()"
+        [class.component-rtl-enabled]="themeService.isRTLEnabled()">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 order-2 order-lg-1">
+                <div class="form-image">
+                    <img src="images/register.png" alt="sign-up-image">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 order-1 order-lg-2">
+                <div class="form-content">
+                    <div class="title">
+                        <h1 class="fw-semibold">
+                            Register to Bill-Splitting
+                        </h1>
+                    </div>
+                    <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label class="main-label d-block fw-medium text-black">
+                                Name
+                            </label>
+                            <input type="text" class="form-control" formControlName="Name"
+                                placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label class="main-label d-block fw-medium text-black">
+                                Email Address
+                            </label>
+                            <input type="text" class="form-control" formControlName="Email"
+                                placeholder="example&#64;gmail.com">
+                        </div>
+                        <div class="form-group position-relative">
+                            <label class="main-label d-block fw-medium text-black">
+                                Password
+                            </label>
+                            <input [type]="isPasswordVisible ? 'text' : 'password'" formControlName="Password"
+                                class="form-control" placeholder="password">
+                            <button type="button" (click)="togglePasswordVisibility()"
+                                class="icon-button p-0 border-0 bg-transparent transition">
+                                <i [ngClass]="isPasswordVisible ? 'ri-eye-line' : 'ri-eye-off-line'"></i>
+                            </button>
+                        </div>
+                        <!-- <div class="form-group position-relative">
+                                <label class="main-label d-block fw-medium text-black">
+                                    Confirm Password
+                                </label>
+                                <input [type]="isConfirmPasswordVisible ? 'text' : 'Confirmpassword'" formControlName="ConfirmPassword" class="form-control"
+                                    placeholder="Confirm password">
+                                <button type="button" (click)="toggleConfirmPasswordVisibility()"
+                                    class="icon-button p-0 border-0 bg-transparent transition">
+                                    <i [ngClass]="isConfirmPasswordVisible ? 'ri-eye-line' : 'ri-eye-off-line'"></i>
+                                </button>
+                            </div> -->
+                        <button type="submit" class="btn-box d-block w-100 border-0 transition fw-medium border-radius">
+                            <span class="d-flex align-items-center justify-content-center">
+                                <i class="material-symbols-outlined">
+                                    person_4
+                                </i>
+                                Register
+                            </span>
+                        </button>
+                        <div class="toast-container transition position-fixed bottom-0 end-0 p-3"
+                            [class.show]="classApplied2">
+                            <div class="toast" role="alert">
+                                <div class="toast-header">
+                                    <strong class="me-auto">Registered</strong>
+                                    <small>1 mins ago</small>
+                                    <button type="button" class="btn-close shadow-none" aria-label="Close"
+                                        (click)="toggleClass2()"></button>
+                                </div>
+                                <div class="toast-body">
+                                    Register Successfully !! please login.
+                                </div>
+                            </div>
+                        </div>
+                        <p class="info">
+                            Already have an account. <a routerLink=""
+                                class="fw-semibold text-primary">Log In</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

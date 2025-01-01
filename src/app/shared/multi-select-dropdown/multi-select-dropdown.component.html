@@ -1,0 +1,20 @@
+<div class="dropdown custom-dropdown">
+    <button class="btn dropdown-toggle form-control" type="button" (click)="toggleDropdown()" [class.show]="isOpen" >
+        <span class="dropdown-placeholder">{{ selectedText || placeholder }}</span>
+    </button>
+    <div class="dropdown-menu" [class.show]="isOpen">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="select-all" [checked]="isAllSelected()"
+                (change)="toggleSelectAll($event)" />
+            <label class="form-check-label" for="select-all">Select All</label>
+        </div>
+        <hr />
+
+        @for (item of options; track $index) {
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" [id]="item.value" [checked]="isSelected(item.value)" (change)="toggleSelection(item.value)" />
+            <label class="form-check-label" [for]="item.value">{{ item.label }}</label>
+        </div>
+    }
+    </div>
+</div>

@@ -1,0 +1,357 @@
+<div class="container my-5">
+    <div class="p-5 text-center bg-body-tertiary rounded-3">
+        <div class="col-lg-12 col-md-12">
+            <div class="chat-card trezo-card mb-25 border-radius d-block bg-white border-0 shadow-none"
+                [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+                [class.component-dark-theme]="themeService.isDark()">
+                <div class="trezo-card-content">
+                    <div class="chat-header d-sm-flex align-items-center justify-content-between">
+                        <div class="user d-flex align-items-center">
+                            <div class="img position-relative">
+                                <img src="images/groupsBill.jpg" class="rounded-circle" alt="user-image">
+                            </div>
+                            <div class="title">
+                                <span class="d-block text-black fw-semibold">
+                                    {{groupDetail?.name}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top"></div>
+                    <span class="d-block current-time">
+                    </span>
+                    <div class="row">
+                        @for (item of groupDetail?.expenses; track $index) {
+                        <div class="col-sm-3 mb-3">
+                            <div class="trezo-card-content border-radius">
+                                <div class="message">
+                                    <div class="card mb-25">
+                                        <div class="col-md-4">
+                                            <img src="images/billRequest.jpg" class="img-fluid rounded-start" alt="image">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body" (click)="openread(item.reason ?? '')">
+                                                <b class="card-title">Requested for '{{item.reason}}'
+                                                </b>
+                                                <p class="card-text">{{item.expense| currency:'INR'}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        <div class="chat-footer border-radius d-md-flex align-items-center">
+                            <button type="button" class="btn" routerLink="/Group" routerLinkActive="router-link-active">
+                                <i class="material-symbols-outlined">
+                                    arrow_back
+                                </i>
+                            </button>
+                            <form class="position-relative">
+                                <button type="button" (click)="openSplitPopUp()" class="btn btn-primary">
+                                    Split an expense
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="add-new-popup" [class.active]="openSplitPopUp1">
+    <div class="popup-dialog">
+        <div>
+            <div class="trezo-card w-100 border-radius d-block bg-white border-0 shadow-none">
+                <div class="trezo-card-header d-flex align-items-center justify-content-between">
+                    <div class="trezo-card-title">
+                        <h5 class="mb-0">Splitting Bill</h5>
+                    </div>
+                    <div class="trezo-card-subtitle">
+                        <button (click)="openSplitPopUp()" class="p-0 border-0 lh-1 bg-transparent transition">
+                            <i class="ri-close-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="trezo-card-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="main-label d-block fw-medium text-black">
+                                    Expense
+                                </label>
+                                <input type="text" class="form-control" [(ngModel)]="expenses"
+                                    (input)="onExpenseChange()" placeholder="Expense">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" [(ngModel)]="reason"
+                                    placeholder="What's this for?">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="trezo-card-content">
+                                    <ul class="nav nav-underline" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active" id="tab1"
+                                                (click)="switchTab($event, 'tab1')" type="button" role="tab"
+                                                aria-controls="home-tab-pane" aria-selected="true"
+                                                [ngClass]="{'active': currentTab === 'tab1'}">
+                                                <i class="material-symbols-outlined">
+                                                    person_4|person_4
+                                                </i>
+
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="tab2" (click)="switchTab($event, 'tab2')"
+                                                type="button" role="tab" aria-controls="profile-tab-pane"
+                                                aria-selected="false" [ngClass]="{'active': currentTab === 'tab2'}">
+                                                <i class="material-symbols-outlined">
+                                                    format_list_numbered
+                                                </i>
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="tab3" (click)="switchTab($event, 'tab3')"
+                                                type="button" role="tab" aria-controls="contact-tab-pane"
+                                                aria-selected="false" [ngClass]="{'active': currentTab === 'tab3'}">
+                                                <i class="material-symbols-outlined">
+                                                    pie_Chart
+                                                </i>
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="tab4" (click)="switchTab($event, 'tab4')"
+                                                type="button" role="tab" aria-controls="disabled-tab-pane"
+                                                aria-selected="false" [ngClass]="{'active': currentTab === 'tab4'}">
+                                                <i class="material-symbols-outlined">
+                                                    percent
+                                                </i>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content nav-item" id="myTabContent">
+                                        @if (currentTab === 'tab1') {
+                                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" tabindex="0">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="main-label d-block fw-medium text-black">
+                                                        Split evenly
+                                                    </label>
+                                                    @for (item of groupDetail?.participants; track $index) {
+                                                    <ol>
+                                                        <li class="contributor-name">
+                                                            <img src="images/userss.jpg" class="rounded-circle"
+                                                                alt="user-image">{{ item }}: <span>{{
+                                                                contributions[$index] | currency:
+                                                                'INR'}}</span>
+                                                        </li>
+                                                    </ol>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>}
+                                        @if (currentTab === 'tab2') {
+                                        <div class="tab-pane fade show active" id="tab2" role="tabpanel" tabindex="0">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="main-label d-block fw-medium text-black">
+                                                        Split by amounts
+                                                    </label>
+                                                    @for (item of groupDetail?.participants; track $index) {
+                                                    <ol>
+                                                        <li class="contributor-name">
+                                                            <img src="images/userss.jpg" class="rounded-circle"
+                                                                alt="user-image">{{ item }}: <span>
+                                                                ₹<input type="number" class="form-control-amount"
+                                                                    [(ngModel)]="contributions[$index]"
+                                                                    (input)="calculateByAmounts()" />
+                                                                <!-- </span>
+                                                            <span> -->
+                                                                {{ contributions[$index] |
+                                                                currency:'INR'
+                                                                }}
+                                                            </span>
+                                                        </li>
+                                                    </ol>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>}
+                                        @if (currentTab === 'tab3') {
+                                        <div class="tab-pane fade show active" id="tab3" role="tabpanel" tabindex="0">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="main-label d-block fw-medium text-black">
+                                                        Split by shares
+                                                    </label>
+                                                    @for (item of groupDetail?.participants; track $index) {
+                                                    <ol>
+                                                        <li class="contributor-name">
+                                                            <img src="images/userss.jpg" class="rounded-circle"
+                                                                alt="user-image">{{ item }}: <span> {{
+                                                                contributions[$index] | currency:
+                                                                'INR'}} <i class="material-symbols-outlined"
+                                                                    [(ngModel)]="contributions[$index]"
+                                                                    (click)="calculateByShares(shares)">add_circle</i>
+                                                            </span>
+                                                        </li>
+                                                    </ol>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>}
+                                        @if (currentTab === 'tab4') {
+                                        <div class="tab-pane fade show active" id="tab4" role="tabpanel" tabindex="0">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="main-label d-block fw-medium text-black">
+                                                        Split by percentages
+                                                    </label>
+                                                    @for (item of groupDetail?.participants; track $index) {
+                                                    <ol>
+                                                        <li class="contributor-name">
+                                                            <img src="images/userss.jpg" class="rounded-circle"
+                                                                alt="user-image">{{ item }}: <span>
+                                                                %<input type="number" class="form-control-amount"
+                                                                    [(ngModel)]="percentages[$index]"
+                                                                    (input)="calculateByPercentage($index)"
+                                                                    [disabled]="isInputDisabled($index)">
+                                                                {{ contributions[$index] | currency
+                                                                :'INR'
+                                                                }}
+                                                            </span>
+                                                        </li>
+                                                    </ol>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-box">
+                        <button (click)="openSplitPopUp()"
+                            class="warn d-inline-block fw-medium border-0 border-radius transition">
+                            Cancel
+                        </button>
+                        <button type="button" (click)="sendRequest()"
+                            class="primary d-inline-block fw-medium border-0 border-radius transition">
+                            <span class="position-relative d-inline-block">
+                                <i class="material-symbols-outlined">
+                                    add </i>
+                                Send request
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="add-new-popup" [class.active]="openRequest">
+    <div class="popup-dialog">
+        <div>
+            <div class="trezo-card w-100 border-radius d-block bg-white border-0 shadow-none">
+                <div class="trezo-card-header d-flex align-items-center justify-content-between">
+                    <div class="trezo-card-title">
+                        <h5 class="mb-0">PAYMENT REQUEST</h5>
+                    </div>
+                    <div class="trezo-card-subtitle">
+                        <button (click)="openRequested()" class="p-0 border-0 lh-1 bg-transparent transition">
+                            <i class="ri-close-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="trezo-card-content">
+                    <div class="row">
+                        @for (participant of exp?.perHead; track $index; ) {
+                        <ol>
+                            <li class="contributors-name-list-payment">
+                                {{participant.name}} : ₹{{participant.amount | number}}<span>
+                                    @if (participant.name === userDetails && !participant.isPaid) {
+
+                                    <button type="button" (click)="openCode()" class="btn btn-primary">Pay
+                                        ₹{{participant.amount | number}}</button>
+
+                                    }
+                                    @if (participant.isPaid) {
+                                    <button class="btn">
+                                        <i class="material-symbols-outlined">
+                                            check
+                                        </i>
+                                    </button><span>Completed</span>
+                                    }
+                                    @else{
+                                    <button class="btn">
+                                        <i class="material-symbols-outlined">
+                                            pending
+                                        </i>
+                                    </button><span>Pending</span>
+                                    }
+
+                                </span>
+                            </li>
+                        </ol>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="add-new-popup" [class.active]="isOpenPayment">
+    <div class="popup-dialog">
+        <div>
+            <div class="trezo-card w-100 border-radius d-block bg-white border-0 shadow-none">
+                <div class="trezo-card-header d-flex align-items-center justify-content-between">
+                    <div class="trezo-card-title">
+                        <h5 class="mb-0">PAYMENT</h5>
+                    </div>
+                    <div class="trezo-card-subtitle">
+                        <button (click)="openCode()" class="p-0 border-0 lh-1 bg-transparent transition">
+                            <i class="ri-close-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="trezo-card-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="main-label d-block fw-medium text-black">
+                                    ENTER 4-DIGIT CODE
+                                </label>
+                                <div class="code-input">
+                                    @for (item of codeArray; track $index) {
+                                    <input type="number" maxlength="1" [type]="isPasswordVisible ? 'text' : 'password'"
+                                        placeholder="*" class="code-box" [id]="'code-' + $index"
+                                        (input)="onInput($event, $index)" (keydown)="onKeyDown($event, $index)"
+                                        [(ngModel)]="codeArray[$index]" />}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-box">
+                        <button type="button" (click)="payment()"
+                            class=" d-inline-block fw-medium border-0 border-radius  rounded-circle ">
+                            <span class="position-relative d-inline-block">
+                                <i class="material-symbols-outlined">
+                                    check </i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
