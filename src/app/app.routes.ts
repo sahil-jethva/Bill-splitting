@@ -13,7 +13,8 @@ import { SplitBillComponent } from './front-pages/split-bill/split-bill.componen
 import { ShowGroupComponent } from './front-pages/show-group/show-group.component';
 
 export const routes: Routes = [
-    {path: '', component: SignInComponent,canActivate: [AuthGuardService]},
+    { path: '', component: SignInComponent, canActivate: [AuthGuardService] },
+    {path:'login',component:SignInComponent, canActivate: [AuthGuardService]},
     { path: 'Register', component: SignUpComponent },
     { path: 'Group', component: FeaturesComponent, canActivate: [ProtectedAuthGuardService] },
     { path: 'Group/:id', component: ShowGroupComponent, canActivate: [ProtectedAuthGuardService] },
@@ -25,14 +26,11 @@ export const routes: Routes = [
     {
         path: '',
         component: FrontPagesComponent,
-        // canActivateChild: [AuthGuardService],
         children: [
-            // {path: '', component: HomeComponent},
-            // {path: 'features', component: FeaturesComponent,canActivate:[AuthGuardService]}
             {path: 'faq', component: FaqComponent}
         ]
     },
-    // Here add new pages component
 
-    {path: '**', component: NotFoundComponent} // This line will remain down from the whole pages component list
+    { path: '**', component: NotFoundComponent },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
