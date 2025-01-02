@@ -130,6 +130,7 @@
                                 </label>
                                 <app-multi-select-dropdown [options]="dropdownOptions" ngDefaultControl
                                     placeholder="Select User"
+                                     [selectedValues]="selectedDropdownValues"
                                     (selectionChange)="onSelectionChange($event)"></app-multi-select-dropdown>
 
                             </div>

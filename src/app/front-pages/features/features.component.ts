@@ -56,12 +56,21 @@ export class FeaturesComponent implements OnInit {
             .filter(user => selectedArray.includes(user.value))
             .map(user => user.label);
     }
+    selectedDropdownValues: (number | undefined)[];
+    updateSelectedDropdownValues() {
+        this.selectedDropdownValues = this.selectedParticipants
+            .map(name => this.dropdownOptions.find(option => option.label === name)?.value)
+            .filter(value => value !== undefined);
+    }
 
     ngOnInit() {
         const url = 'http://localhost:3000/me'
         this.httpClient.get<{ user: UserLoginDetail }>(url).subscribe(
             (response) => {
                 this.userDetails = response.user.name
+                this.selectedParticipants = [this.userDetails];
+                console.log(this.selectedParticipants);
+
                 this.groupListService.getGroup().subscribe(
                     (res) => {
                         res.forEach((grp) => {
@@ -76,14 +85,21 @@ export class FeaturesComponent implements OnInit {
                     }
                 )
             })
-        this.groupListService.getUsers()
+        this.groupListService.getUsers().subscribe((result: User[]) => {
+            this.users = result;
+            this.dropdownOptions = result.map((user: User) => ({
+                label: user.name,
+                value: user.id
+            }));
+            this.updateSelectedDropdownValues();
+        })
     }
     addGroup() {
         const url = 'http://localhost:3000/groups'
         const randomBgClass = this.backgroundClasses[Math.floor(Math.random() * this.backgroundClasses.length)];
         const requestbody = {
             name: this.groupName,
-            participants: this.selectedParticipants,
+            participants: Array.from(new Set([...this.selectedParticipants, this.userDetails])),
             bgClass: randomBgClass,
             expenses: []
         }
@@ -117,7 +133,7 @@ export class FeaturesComponent implements OnInit {
             }
         );
     }
-    gi(para:string) {
+    gi(para: string) {
         const img = `https://avatar.iran.liara.run/public/boy?username=${para}`
         return img
     }
